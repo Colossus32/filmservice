@@ -7,9 +7,8 @@ import lombok.ToString;
 @Builder
 @Getter
 @ToString
-public class UserRegistrationRequest {
+public class UserEditingRequest {
 
-    private String email;
     private String username;
     private String name;
 }
