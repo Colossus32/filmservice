@@ -10,12 +10,6 @@ import java.util.regex.Pattern;
 @Slf4j
 public record UserService(UserRepository repository) {
 
-    /**
-     * Checks if the user details are correct for saving.
-     *
-     * @param userRegistrationRequest The user registration request object.
-     * @return True if the user details are correct, false otherwise.
-     */
     public boolean isUserCorrectForSaving(UserRegistrationRequest userRegistrationRequest) {
         log.info("{} is checking for correct saving...", userRegistrationRequest);
 
@@ -39,11 +33,7 @@ public record UserService(UserRepository repository) {
         return username.matches("[a-zA-Z]+");
     }
 
-    /**
-     * Saves a user registration request.
-     *
-     * @param userRegistrationRequest The user registration request object.
-     */
+
     public void saveUser(UserRegistrationRequest userRegistrationRequest) {
         log.info("Saving : {}...", userRegistrationRequest);
         repository.save(User.builder()

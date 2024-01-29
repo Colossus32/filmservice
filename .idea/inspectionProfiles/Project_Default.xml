@@ -14,17 +14,20 @@
         <list>
           <option value="filmservice" />
           <option value="filmservice" />
+          <option value="user" />
         </list>
       </option>
       <option name="ignoredPackages">
         <list>
           <option value="ch.qos.logback:logback-classic:1.4.6" />
           <option value="ch.qos.logback:logback-core:1.4.6" />
+          <option value="ch.qos.logback:logback-classic:1.4.8" />
         </list>
       </option>
       <option name="ignoredReasons">
         <list>
           <option value="Not exploitable" />
+          <option value="Other" />
           <option value="Other" />
         </list>
       </option>
