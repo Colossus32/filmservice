@@ -1,10 +1,14 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
+    <inspection_tool class="AutoCloseableResource" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="METHOD_MATCHER_CONFIG" value="java.util.Formatter,format,java.io.Writer,append,com.google.common.base.Preconditions,checkNotNull,org.hibernate.Session,close,java.io.PrintWriter,printf,java.io.PrintStream,printf,java.net.http.HttpClient,newHttpClient" />
+    </inspection_tool>
     <inspection_tool class="IncorrectHttpHeaderInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="customHeaders">
         <set>
           <option value="User-Id" />
+          <option value="X-API-KEY" />
         </set>
       </option>
     </inspection_tool>
@@ -15,12 +19,14 @@
           <option value="filmservice" />
           <option value="filmservice" />
           <option value="user" />
+          <option value="updater" />
         </list>
       </option>
       <option name="ignoredPackages">
         <list>
           <option value="ch.qos.logback:logback-classic:1.4.6" />
           <option value="ch.qos.logback:logback-core:1.4.6" />
+          <option value="ch.qos.logback:logback-classic:1.4.8" />
           <option value="ch.qos.logback:logback-classic:1.4.8" />
         </list>
       </option>
@@ -29,6 +35,7 @@
           <option value="Not exploitable" />
           <option value="Other" />
           <option value="Other" />
+          <option value="Not exploitable" />
         </list>
       </option>
     </inspection_tool>

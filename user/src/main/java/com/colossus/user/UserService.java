@@ -33,7 +33,6 @@ public record UserService(UserRepository repository) {
         return username.matches("[a-zA-Z]+");
     }
 
-
     public void saveUser(UserRegistrationRequest userRegistrationRequest) {
         log.info("Saving : {}...", userRegistrationRequest);
         repository.save(User.builder()

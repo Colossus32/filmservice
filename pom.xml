@@ -10,6 +10,8 @@
   <name>filmservice</name>
   <modules>
     <module>user</module>
+      <module>updater</module>
+      <module>movie</module>
   </modules>
 
   <properties>
