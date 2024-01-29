@@ -1,20 +1,26 @@
 package com.colossus.movie;
 
+import com.colossus.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
+@Table(name = "movies")
 public class Movie {
 
+    public Movie() {
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(nullable = false, unique = true)
@@ -22,5 +28,8 @@ public class Movie {
 
     @Column(nullable = false, unique = true)
     private String posterURL;
+
+    @ManyToMany(mappedBy = "favoriteMovies")
+    Set<User> favoritedByUsers = new HashSet<>();
 
 }

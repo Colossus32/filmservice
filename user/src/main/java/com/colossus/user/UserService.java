@@ -1,5 +1,9 @@
 package com.colossus.user;
 
+import com.colossus.movie.Movie;
+import com.colossus.movie.MovieRepository;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +12,12 @@ import java.util.regex.Pattern;
 
 @Service
 @Slf4j
-public record UserService(UserRepository repository) {
+@AllArgsConstructor
+@RequiredArgsConstructor
+public class UserService {
+
+    private UserRepository userRepository;
+    private MovieRepository movieRepository;
 
     public boolean isUserCorrectForSaving(UserRegistrationRequest userRegistrationRequest) {
         log.info("{} is checking for correct saving...", userRegistrationRequest);
@@ -23,8 +32,8 @@ public record UserService(UserRepository repository) {
 
         if (!isUsernamePatterCorrect(userRegistrationRequest.getUsername())) return false;
 
-        Optional<User> checkEmail = repository.findByEmail(userRegistrationRequest.getEmail());
-        Optional<User> checkUsername = repository.findByUsername(userRegistrationRequest.getEmail());
+        Optional<User> checkEmail = userRepository.findByEmail(userRegistrationRequest.getEmail());
+        Optional<User> checkUsername = userRepository.findByUsername(userRegistrationRequest.getEmail());
 
         return checkEmail.isEmpty() && checkUsername.isEmpty();
     }
@@ -35,7 +44,7 @@ public record UserService(UserRepository repository) {
 
     public void saveUser(UserRegistrationRequest userRegistrationRequest) {
         log.info("Saving : {}...", userRegistrationRequest);
-        repository.save(User.builder()
+        userRepository.save(User.builder()
                 .email(userRegistrationRequest.getEmail())
                 .username(userRegistrationRequest.getUsername())
                 .name(userRegistrationRequest.getName())
@@ -44,17 +53,17 @@ public record UserService(UserRepository repository) {
 
     public void saveUser(User user) {
         log.info("Saving user: {}...", user);
-        repository.save(user);
+        userRepository.save(user);
     }
 
     public Optional<User> getUserById(long id) {
         log.info("Getting user by ID: {}...", id);
-        return repository.findById(id);
+        return userRepository.findById(id);
     }
 
     public boolean editUserDetails(long id, UserEditingRequest userEditingRequest) {
         log.info("Editing user with ID: {}, details: {}...", id, userEditingRequest);
-        Optional<User> userFromDB = repository.findById(id);
+        Optional<User> userFromDB = userRepository.findById(id);
         if (isUsernamePatterCorrect(userEditingRequest.getUsername()) || userFromDB.isEmpty()) {
             log.error("Error with editing user with ID: {}", id);
             return false;
@@ -69,20 +78,30 @@ public record UserService(UserRepository repository) {
                 .name(userEditingRequest.getName())
                 .build();
 
-        repository.save(editedUser);
+        userRepository.save(editedUser);
 
         return true;
     }
 
     public boolean deleteUser(long id) {
         log.info("Deleting user with ID: {}...", id);
-        Optional<User> userFromDB = repository.findById(id);
+        Optional<User> userFromDB = userRepository.findById(id);
         if (userFromDB.isEmpty()) {
             log.error("Error with deleting user with ID: {}", id);
             return false;
         }
 
-        repository.deleteById(id);
+        userRepository.deleteById(id);
         return true;
+    }
+
+    public void removeMovieFromFavorites(long headerId, long movieId) {
+
+        log.info("Deleting movie {} from user {}", movieId, headerId);
+        User user = userRepository.findById(headerId).orElseThrow();
+        Movie movie = movieRepository.findById(movieId).orElseThrow();
+
+        user.getFavoriteMovies().remove(movie);
+        userRepository.save(user);
     }
 }
